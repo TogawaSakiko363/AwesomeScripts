@@ -62,23 +62,30 @@ install() {
   "route": {
     "rules": [
       {
-        "inbound": ["socks-in"],
+        "inbound": ["net-in"],
         "outbound": "direct"
       }
     ]
   },
   "inbounds": [
     {
-      "type": "socks",
-      "tag": "socks-in",
+      "type": "trojan",
+      "tag": "net-in",
       "listen": "::",
-      "listen_port": 8888,
+      "listen_port": 37456,
+      "transport": {
+        "type": "httpupgrade",
+        "path": "/abc"
+      },
       "users": [
         {
-          "username": "c403ad53c9c0f656",
-          "password": "02ca7de4ed95eac2"
+          "password": "F74739B23AF5AD27"
         }
-      ]
+      ],
+      "multiplex": {
+        "enabled": true,
+        "padding": false
+      }
     }
   ],
   "outbounds": [
