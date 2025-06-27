@@ -2,38 +2,34 @@
 
 set -e
 
+# 检测系统架构和平台
 ARCH=$(uname -m)
-if [[ "$ARCH" == "x86_64" ]]; then
-  ARCH="amd64"
-else
-  echo "[ERROR] Unsupported architecture: $ARCH"
-  exit 1
-fi
+OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+
+case "$ARCH" in
+  x86_64) ARCH="amd64" ;;
+  aarch64 | arm64) ARCH="arm64" ;;
+  *)
+    echo "[ERROR] 不支持的架构: $ARCH"
+    exit 1
+    ;;
+esac
 
 install() {
   echo "[INFO] 安装必要工具..."
-  sudo apt update -y && sudo apt install -y curl wget jq unzip lsb-release
-
-  echo "[INFO] 获取最新 Go 版本..."
-  GO_VERSION=$(curl -s https://go.dev/VERSION?m=text | head -n 1)
-  GO_TAR="${GO_VERSION}.linux-${ARCH}.tar.gz"
-  GO_URL="https://golang.org/dl/${GO_TAR}"
-
-  echo "[INFO] 下载并安装 Go ${GO_VERSION}..."
-  wget -q "${GO_URL}" -O "${GO_TAR}"
-  sudo rm -rf /usr/local/go
-  sudo tar -C /usr/local -xzf "${GO_TAR}"
-  rm -f "${GO_TAR}"
-
-  echo 'export PATH=$PATH:/usr/local/go/bin' | sudo tee /etc/profile.d/go.sh > /dev/null
-  export PATH=$PATH:/usr/local/go/bin
+  sudo apt update -y && sudo apt install -y curl wget jq tar lsb-release
 
   echo "[INFO] 获取 sing-box 最新 pre-release 版本..."
   SING_BOX_API_URL="https://api.github.com/repos/SagerNet/sing-box/releases"
   SING_BOX_LATEST=$(curl -s "${SING_BOX_API_URL}" | jq -r '[.[] | select(.prerelease==true)][0]')
   SING_BOX_VERSION=$(echo "${SING_BOX_LATEST}" | jq -r .tag_name)
-  SING_BOX_ASSET_URL=$(echo "${SING_BOX_LATEST}" | jq -r '.assets[] | select(.name | test("linux-'${ARCH}'\\.tar\\.gz")) | .browser_download_url')
+  SING_BOX_ASSET_URL=$(echo "${SING_BOX_LATEST}" | jq -r ".assets[] | select(.name | test(\"${OS}-${ARCH}\\.tar\\.gz\")) | .browser_download_url")
   SING_BOX_TAR=$(basename "${SING_BOX_ASSET_URL}")
+
+  if [[ -z "$SING_BOX_ASSET_URL" ]]; then
+    echo "[ERROR] 未找到匹配系统平台的二进制包 (${OS}-${ARCH})"
+    exit 1
+  fi
 
   echo "[INFO] 下载并安装 sing-box ${SING_BOX_VERSION}..."
   cd /tmp
@@ -62,29 +58,35 @@ install() {
   "route": {
     "rules": [
       {
-        "inbound": ["net-in"],
+        "inbound": ["vless-in"],
         "outbound": "direct"
       }
     ]
   },
   "inbounds": [
     {
-      "type": "trojan",
-      "tag": "net-in",
+      "type": "vless",
+      "tag": "vless-in",
       "listen": "::",
-      "listen_port": 37456,
-      "transport": {
-        "type": "httpupgrade",
-        "path": "/abc"
-      },
+      "listen_port": 8443,
       "users": [
         {
-          "password": "F74739B23AF5AD27"
+          "uuid": "79e2d4b8-272d-46ea-a345-323d8c32e00d",
+          "flow": "xtls-rprx-vision"
         }
       ],
-      "multiplex": {
+      "tls": {
         "enabled": true,
-        "padding": false
+        "server_name": "www.map.gov.hk",
+        "reality": {
+          "enabled": true,
+          "handshake": {
+            "server": "www.map.gov.hk",
+            "server_port": 443
+          },
+          "private_key": "GMUgzFqcABXZ-4Th1Y7yFabPjk7cspk5ECxOl4JtiUM",
+          "short_id": "0123456789abcdef"
+        }
       }
     }
   ],
@@ -121,7 +123,7 @@ EOL
 }
 
 uninstall() {
-  echo "[INFO] 正在卸载 Sing-Box 和 Go..."
+  echo "[INFO] 正在卸载 Sing-Box..."
 
   sudo systemctl stop sing-box || true
   sudo systemctl disable sing-box || true
@@ -131,13 +133,9 @@ uninstall() {
   sudo rm -f /usr/local/bin/sing-box
   sudo rm -rf /etc/sing-box
 
-  sudo rm -rf /usr/local/go
-  sudo rm -f /etc/profile.d/go.sh
-
-  echo "[✅] Sing-Box 和 Go 已完全卸载。"
+  echo "[✅] Sing-Box 已完全卸载。"
 }
 
-# 参数分支
 case "$1" in
   install)
     install
