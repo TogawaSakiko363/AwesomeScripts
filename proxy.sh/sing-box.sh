@@ -23,8 +23,8 @@ install() {
   SING_BOX_API_URL="https://api.github.com/repos/SagerNet/sing-box/releases"
   SING_BOX_LATEST=$(curl -s "${SING_BOX_API_URL}" | jq -r '[.[] | select(.prerelease==true)][0]')
   SING_BOX_VERSION=$(echo "${SING_BOX_LATEST}" | jq -r .tag_name)
-  SING_BOX_ASSET_URL=$(echo "${SING_BOX_LATEST}" | jq -r ".assets[] | select(.name | test(\"${OS}-${ARCH}\\.tar\\.gz\")) | .browser_download_url")
-  SING_BOX_TAR=$(basename "${SING_BOX_ASSET_URL}")
+  REGEX="${OS}-${ARCH}\\.tar\\.gz"
+  SING_BOX_ASSET_URL=$(echo "${SING_BOX_LATEST}" | jq -r --arg regex "$REGEX" '.assets[] | select(.name | test($regex)) | .browser_download_url')
 
   if [[ -z "$SING_BOX_ASSET_URL" ]]; then
     echo "[ERROR] 未找到匹配系统平台的二进制包 (${OS}-${ARCH})"
