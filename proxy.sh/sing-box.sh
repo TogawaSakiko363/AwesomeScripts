@@ -106,11 +106,11 @@ install() {
       ],
       "tls": {
         "enabled": true,
-        "server_name": "www.map.gov.hk",
+        "server_name": "www.urbtix.hk",
         "reality": {
           "enabled": true,
           "handshake": {
-            "server": "www.map.gov.hk",
+            "server": "www.urbtix.hk",
             "server_port": 443
           },
           "private_key": "GMUgzFqcABXZ-4Th1Y7yFabPjk7cspk5ECxOl4JtiUM",
