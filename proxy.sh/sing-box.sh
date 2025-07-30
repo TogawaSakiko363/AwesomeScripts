@@ -106,11 +106,11 @@ install() {
       ],
       "tls": {
         "enabled": true,
-        "server_name": "www.urbtix.hk",
+        "server_name": "js.arcgis.com",
         "reality": {
           "enabled": true,
           "handshake": {
-            "server": "www.urbtix.hk",
+            "server": "js.arcgis.com",
             "server_port": 443
           },
           "private_key": "GMUgzFqcABXZ-4Th1Y7yFabPjk7cspk5ECxOl4JtiUM",
