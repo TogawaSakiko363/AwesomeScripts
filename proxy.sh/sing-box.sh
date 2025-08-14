@@ -106,7 +106,7 @@ install() {
       ],
       "padding_scheme": [],
       "tls": {
-        "server_name": "vpnhk.cuhk.edu.cn",
+        "server_name": "vpn2fa.hku.hk",
         "enabled": true,
         "certificate_path": "/root/certs/cert.pem",
         "key_path": "/root/certs/private.key"
