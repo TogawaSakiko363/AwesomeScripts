@@ -4,10 +4,10 @@
  
 ```bash
 wget https://raw.githubusercontent.com/TogawaSakiko363/AwesomeScripts/refs/heads/main/proxy.sh/sing-box_anytls.sh && \
-DOMAIN="fuckgfw.net" USER_PASSWORD="zhishimima" LISTEN_PORT=11451 bash sing-box_anytls.sh install
+DOMAIN="sglong.wechat.com" USER_PASSWORD="YOUSHOULDREALLYUSESTRONGPASSWORD" LISTEN_PORT=11451 bash sing-box_anytls.sh install
 ```
   
-`DOMAIN="fuckgfw.net" USER_PASSWORD="zhishimima" LISTEN_PORT=11451` can be defined custom
+`DOMAIN="sglong.wechat.com" USER_PASSWORD="YOUSHOULDREALLYUSESTRONGPASSWORD" LISTEN_PORT=11451` can be defined custom
 
  ### sing-box based one-click script for AnyTLS + Reality
  
