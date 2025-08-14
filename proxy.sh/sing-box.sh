@@ -105,7 +105,12 @@ install() {
         }
       ],
       "padding_scheme": [],
-      "tls": {}
+      "tls": {
+        "server_name": "vpnhk.cuhk.edu.cn",
+        "enabled": true,
+        "certificate_path": "/root/certs/cert.pem",
+        "key_path": "/root/certs/private.key"
+      }
     }
   ],
   "outbounds": [
