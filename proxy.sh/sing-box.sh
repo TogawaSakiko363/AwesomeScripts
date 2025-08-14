@@ -87,36 +87,25 @@ install() {
   "route": {
     "rules": [
       {
-        "inbound": ["vless-in"],
+        "inbound": ["anytls-in"],
         "outbound": "direct"
       }
     ]
   },
   "inbounds": [
     {
-      "type": "vless",
-      "tag": "vless-in",
+      "type": "anytls",
+      "tag": "anytls-in",
       "listen": "::",
       "listen_port": 8443,
       "users": [
         {
-          "uuid": "79e2d4b8-272d-46ea-a345-323d8c32e00d",
-          "flow": "xtls-rprx-vision"
+          "name": "AUUUUUUUUUUUUUUU",
+          "password": "thisisaverystrongpasswd"
         }
       ],
-      "tls": {
-        "enabled": true,
-        "server_name": "js.arcgis.com",
-        "reality": {
-          "enabled": true,
-          "handshake": {
-            "server": "js.arcgis.com",
-            "server_port": 443
-          },
-          "private_key": "GMUgzFqcABXZ-4Th1Y7yFabPjk7cspk5ECxOl4JtiUM",
-          "short_id": "0123456789abcdef"
-        }
-      }
+      "padding_scheme": [],
+      "tls": {}
     }
   ],
   "outbounds": [
