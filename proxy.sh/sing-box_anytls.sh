@@ -209,7 +209,7 @@ usage() {
   echo "用法: \$0 {install|update|uninstall} [stable|prerelease]"
   echo "  环境变量:"
   echo "    DOMAIN         证书域名 (默认: sglong.wechat.com)"
-  echo "    USER_PASSWORD  用户密码 (默认: YOUSHOULDREALLYSETASTRONGPASSWORD)"
+  echo "    USER_PASSWORD  用户密码 (默认: YOUSHOULDREALLYUSESTRONGPASSWORD)"
   echo "    LISTEN_PORT    监听端口 (默认: 11451)"
   exit 1
 }
