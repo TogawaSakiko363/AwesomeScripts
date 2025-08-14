@@ -3,8 +3,8 @@
 set -euo pipefail
 
 # === 自定义变量 ===
-DOMAIN=${DOMAIN:-"fuckgfw.net"}
-USER_PASSWORD=${USER_PASSWORD:-"zhishimima"}
+DOMAIN=${DOMAIN:-"sglong.wechat.com"}
+USER_PASSWORD=${USER_PASSWORD:-"YOUSHOULDREALLYUSESTRONGPASSWORD"}
 LISTEN_PORT=${LISTEN_PORT:-11451}
 
 ARCH=$(uname -m)
