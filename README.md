@@ -25,4 +25,5 @@ wget https://raw.githubusercontent.com/TogawaSakiko363/AwesomeScripts/refs/heads
 DOMAIN="example.com" USER_PASSWORD="A0B9C8D7E6F5" EMAIL="example@example.com" LISTEN_PORT=8443 bash sing-box_anytls_acme.sh install
 ```
 `USER_PASSWORD="A0B9C8D7E6F5" LISTEN_PORT=8443` can be defined custom
+
 `DOMAIN="example.com" EMAIL="example@example.com"` It must be a domain that has resolved the server IP address and a correct email address
