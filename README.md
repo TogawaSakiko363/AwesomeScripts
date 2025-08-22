@@ -18,7 +18,7 @@ DOMAIN="www.cityline.com" USER_PASSWORD="A0B9C8D7E6F5" LISTEN_PORT=8443 bash sin
 
 `DOMAIN="www.cityline.com" USER_PASSWORD="A0B9C8D7E6F5" LISTEN_PORT=8443` can be defined custom
 
- ### sing-box based one-click script for AnyTLS + ACME SSL
+ ### sing-box based one-click script for AnyTLS + ACME + Let's Encrypt SSL
  
 ```bash
 wget https://raw.githubusercontent.com/TogawaSakiko363/AwesomeScripts/refs/heads/main/proxy.sh/sing-box_anytls_acme.sh && \
