@@ -1,5 +1,7 @@
 # Some awesome scripts 
 
+## For technical exchange and learning only, please abide by the laws of your country and do not use it for illegal purposes.
+
  ### sing-box based one-click script for AnyTLS + self-signed certificate
  
 ```bash
@@ -27,3 +29,16 @@ DOMAIN="example.com" USER_PASSWORD="A0B9C8D7E6F5" EMAIL="example@example.com" LI
 `USER_PASSWORD="A0B9C8D7E6F5" LISTEN_PORT=8443` can be defined custom
 
 `DOMAIN="example.com" EMAIL="example@example.com"` It must be a domain that has resolved the server IP address and a correct email address
+
+ ### shadowsocks libev\rust + v2ray-plugin\obfs-server\none all in boom one-click script
+
+ ```bash
+wget https://raw.githubusercontent.com/TogawaSakiko363/AwesomeScripts/refs/heads/main/proxy.sh/shadowsocks.sh && \
+VERSION=rust LISTEN=0.0.0.0 PORT=8080 PLUGIN=obfs-server PASSWORD=+hU4fFunrxE7sm8zZdAmuA== METHOD=2022-blake3-aes-128-gcm bash shadowsocks.sh install 
+```
+
+`VERSION=rust` or `VERSION=libev`
+
+`PLUGIN=obfs-server` or `PLUGIN=v2ray-plugin` or `PLUGIN=false`
+
+`LISTEN=0.0.0.0 PORT=8080 PASSWORD=+hU4fFunrxE7sm8zZdAmuA== METHOD=2022-blake3-aes-128-gcm` can be defined custom
