@@ -2,7 +2,6 @@
 
 set -e
 
-# === 参数解析 ===
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --server)
@@ -21,30 +20,58 @@ if [[ -z "$SERVER_URL" ]]; then
   exit 1
 fi
 
-# === 检测 curl ===
-if ! command -v curl >/dev/null 2>&1; then
-  echo "curl 未安装，正在安装..."
+if ! command -v python3 >/dev/null 2>&1; then
+  echo "python3 未安装，正在安装..."
   if command -v apt >/dev/null 2>&1; then
-    sudo apt update && sudo apt install -y curl
+    sudo apt update && sudo apt install -y python3
   elif command -v yum >/dev/null 2>&1; then
-    sudo yum install -y curl
+    sudo yum install -y python3
   else
-    echo "不支持的系统，请手动安装 curl"
+    echo "请手动安装 python3"
     exit 1
   fi
 fi
 
-# === 测速 ===
 echo "开始测速: $SERVER_URL"
-RESULT=$(curl -L -w "time_total:%{time_total}\nspeed_download:%{speed_download}\nspeed_upload:%{speed_upload}\n" -o /dev/null -s "$SERVER_URL")
 
-TOTAL_TIME=$(echo "$RESULT" | grep time_total | cut -d':' -f2)
-SPEED_BPS=$(echo "$RESULT" | grep speed_download | cut -d':' -f2)
+python3 - "$SERVER_URL" <<'PYCODE'
+import sys, time, urllib.request
 
-# 换算为 Mbps
-SPEED_Mbps=$(awk "BEGIN {printf \"%.2f\", $SPEED_BPS*8/1024/1024}")
-PEAK_Mbps=$SPEED_Mbps  # curl单线程即最大速度≈平均速度
+url = sys.argv[1]
 
-echo "测速完成"
-echo "平均速度: $SPEED_Mbps Mbps"
-echo "峰值速度: $PEAK_Mbps Mbps"
+req = urllib.request.urlopen(url)
+total_size = int(req.headers.get('Content-Length', 0))
+
+start = time.time()
+downloaded = 0
+last_time = start
+last_downloaded = 0
+speeds = []
+
+chunk_size = 1024*256
+while True:
+    chunk = req.read(chunk_size)
+    if not chunk:
+        break
+    downloaded += len(chunk)
+    now = time.time()
+    if now - last_time >= 1:
+        interval = now - last_time
+        bytes_in_interval = downloaded - last_downloaded
+        speed_bps = bytes_in_interval / interval
+        speeds.append(speed_bps)
+        last_time = now
+        last_downloaded = downloaded
+
+end = time.time()
+duration = end - start
+if duration <= 0:
+    duration = 1
+
+avg_speed_mbps = (downloaded * 8 / duration) / (1024*1024)
+peak_speed_mbps = (max(speeds) * 8) / (1024*1024) if speeds else avg_speed_mbps
+
+print("测速完成")
+print(f"平均速度: {avg_speed_mbps:.2f} Mbps")
+print(f"峰值速度: {peak_speed_mbps:.2f} Mbps")
+PYCODE
