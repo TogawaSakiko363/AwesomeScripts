@@ -43,7 +43,7 @@ VERSION=rust LISTEN=0.0.0.0 PORT=8080 PLUGIN=obfs-server PASSWORD=+hU4fFunrxE7sm
 
 `LISTEN=0.0.0.0 PORT=8080 PASSWORD=+hU4fFunrxE7sm8zZdAmuA== METHOD=2022-blake3-aes-128-gcm` can be customized
 
- ### Python3 based temporary HTTP Speedtest Server script
+ ### Python3 based temporary HTTP Speedtest script
 
 Server:
   ```bash
