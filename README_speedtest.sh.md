@@ -24,7 +24,7 @@ This script is ideal for network administrators, developers, or anyone needing a
 1.  Download the script to both the server and client machines.
 
     ```bash
-wget -O speedtest.sh https://raw.githubusercontent.com/TogawaSakiko363/AwesomeScripts/main/speedtest.sh/combo.sh
+    wget -O speedtest.sh https://raw.githubusercontent.com/TogawaSakiko363/AwesomeScripts/main/speedtest.sh/combo.sh
     ```
 
 2.  Make the script executable:
