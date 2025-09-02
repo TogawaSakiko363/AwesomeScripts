@@ -6,7 +6,7 @@ This script is ideal for network administrators, developers, or anyone needing a
 
 ## Features
 
-- **All-in-One**: A single script file (`combo.sh`) provides both server and client functionality.
+- **All-in-One**: A single script file (`speedtest.sh`) provides both server and client functionality.
 - **Dependency-Free Start**: Automatically checks for and installs `python3`, `pip`, and required libraries (`requests`, `matplotlib`, `numpy`).
 - **Bidirectional Testing**: Measure both upload (client-to-server) and download (server-to-client) speeds.
 - **Multi-Threaded**: Utilizes multiple concurrent connections to saturate the network link for more accurate results.
@@ -21,19 +21,16 @@ This script is ideal for network administrators, developers, or anyone needing a
 
 ## Installation
 
-1.  Download the script to both the server and client machines. You can use `curl` or `wget`.
+1.  Download the script to both the server and client machines.
 
     ```bash
-    # The URL points to the raw script file
-    URL="[https://raw.githubusercontent.com/TogawaSakiko363/AwesomeScripts/main/speedtest.sh/combo.sh](https://raw.githubusercontent.com/TogawaSakiko363/AwesomeScripts/main/speedtest.sh/combo.sh)"
-    
-    curl -o combo.sh -L "$URL"
+wget -O speedtest.sh https://raw.githubusercontent.com/TogawaSakiko363/AwesomeScripts/main/speedtest.sh/combo.sh
     ```
 
 2.  Make the script executable:
 
     ```bash
-    chmod +x combo.sh
+    chmod +x speedtest.sh
     ```
 
 ## Usage
@@ -49,7 +46,7 @@ Start the script in server mode on the machine that will act as the test endpoin
 **Command:**
 
 ```bash
-./combo.sh --mode server --listen 0.0.0.0:8080
+./speedtest.sh --mode server --listen 0.0.0.0:8080
 ```
 
 **Explanation:**
@@ -73,12 +70,12 @@ To measure the speed of data being sent **from** the server **to** the client, u
 **Command:**
 
 ```bash
-./combo.sh --mode client --server <SERVER_IP>:8080 --time 15s --threads 8 --Reverse
+./speedtest.sh --mode client --server <SERVER_IP>:8080 --time 15s --threads 8 --Reverse
 ```
 
 **Example:** If your server's IP is `192.168.1.100`:
 ```bash
-./combo.sh --mode client --server 192.168.1.100:8080 --time 15s --threads 8 --Reverse
+./speedtest.sh --mode client --server 192.168.1.100:8080 --time 15s --threads 8 --Reverse
 ```
 
 #### **2. Testing Upload Speed (Client to Server)**
@@ -88,12 +85,12 @@ To measure the speed of data being sent **from** the client **to** the server, s
 **Command:**
 
 ```bash
-./combo.sh --mode client --server <SERVER_IP>:8080 --time 15s --threads 8
+./speedtest.sh --mode client --server <SERVER_IP>:8080 --time 15s --threads 8
 ```
 
 **Example:** If your server's IP is `192.168.1.100`:
 ```bash
-./combo.sh --mode client --server 192.168.1.100:8080 --time 15s --threads 8
+./speedtest.sh --mode client --server 192.168.1.100:8080 --time 15s --threads 8
 ```
 
 #### Client Arguments
