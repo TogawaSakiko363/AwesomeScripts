@@ -5,8 +5,7 @@
  ### sing-box based one-click script for AnyTLS + self-signed certificate
  
 ```bash
-wget https://raw.githubusercontent.com/TogawaSakiko363/AwesomeScripts/refs/heads/main/proxy.sh/sing-box_anytls.sh && \
-DOMAIN="sglong.wechat.com" USER_PASSWORD="YOUSHOULDREALLYUSESTRONGPASSWORD" LISTEN_PORT=11451 bash sing-box_anytls.sh install
+DOMAIN="sglong.wechat.com" USER_PASSWORD="YOUSHOULDREALLYUSESTRONGPASSWORD" LISTEN_PORT=11451 bash <(curl -sL https://raw.githubusercontent.com/TogawaSakiko363/AwesomeScripts/refs/heads/main/proxy.sh/sing-box_anytls.sh) install
 ```
   
 `DOMAIN="sglong.wechat.com" USER_PASSWORD="YOUSHOULDREALLYUSESTRONGPASSWORD" LISTEN_PORT=11451` can be customized
@@ -14,8 +13,7 @@ DOMAIN="sglong.wechat.com" USER_PASSWORD="YOUSHOULDREALLYUSESTRONGPASSWORD" LIST
  ### sing-box based one-click script for AnyTLS + Reality
  
 ```bash
-wget https://raw.githubusercontent.com/TogawaSakiko363/AwesomeScripts/refs/heads/main/proxy.sh/sing-box_anytls_reality.sh && \
-DOMAIN="www.cityline.com" USER_PASSWORD="A0B9C8D7E6F5" LISTEN_PORT=8443 bash sing-box_anytls_reality.sh install
+DOMAIN="www.cityline.com" USER_PASSWORD="A0B9C8D7E6F5" LISTEN_PORT=8443 bash <(curl -sL https://raw.githubusercontent.com/TogawaSakiko363/AwesomeScripts/refs/heads/main/proxy.sh/sing-box_anytls_reality.sh) install
 ```
 
 `DOMAIN="www.cityline.com" USER_PASSWORD="A0B9C8D7E6F5" LISTEN_PORT=8443` can be customized
@@ -23,8 +21,7 @@ DOMAIN="www.cityline.com" USER_PASSWORD="A0B9C8D7E6F5" LISTEN_PORT=8443 bash sin
  ### sing-box based one-click script for AnyTLS + ACME + Let's Encrypt SSL
  
 ```bash
-wget https://raw.githubusercontent.com/TogawaSakiko363/AwesomeScripts/refs/heads/main/proxy.sh/sing-box_anytls_acme.sh && \
-DOMAIN="example.com" USER_PASSWORD="A0B9C8D7E6F5" EMAIL="example@example.com" LISTEN_PORT=8443 bash sing-box_anytls_acme.sh install
+DOMAIN="example.com" USER_PASSWORD="A0B9C8D7E6F5" EMAIL="example@example.com" LISTEN_PORT=8443 bash <(curl -sL https://raw.githubusercontent.com/TogawaSakiko363/AwesomeScripts/refs/heads/main/proxy.sh/sing-box_acme.sh) install
 ```
 `USER_PASSWORD="A0B9C8D7E6F5" LISTEN_PORT=8443` can be customized
 
@@ -33,8 +30,7 @@ DOMAIN="example.com" USER_PASSWORD="A0B9C8D7E6F5" EMAIL="example@example.com" LI
  ### shadowsocks libev\rust + v2ray-plugin\obfs-server\none all in boom one-click script
 
  ```bash
-wget https://raw.githubusercontent.com/TogawaSakiko363/AwesomeScripts/refs/heads/main/proxy.sh/shadowsocks.sh && \
-VERSION=rust LISTEN=0.0.0.0 PORT=8080 PLUGIN=obfs-server PASSWORD=+hU4fFunrxE7sm8zZdAmuA== METHOD=2022-blake3-aes-128-gcm bash shadowsocks.sh install 
+VERSION=rust LISTEN=0.0.0.0 PORT=8080 PLUGIN=obfs-server PASSWORD=+hU4fFunrxE7sm8zZdAmuA== METHOD=2022-blake3-aes-128-gcm bash <(curl -sL https://raw.githubusercontent.com/TogawaSakiko363/AwesomeScripts/refs/heads/main/proxy.sh/shadowsocks.sh) install
 ```
 
 `VERSION=rust` or `VERSION=libev`
