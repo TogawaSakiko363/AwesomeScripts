@@ -21,7 +21,7 @@ DOMAIN="www.cityline.com" USER_PASSWORD="A0B9C8D7E6F5" LISTEN_PORT=8443 bash <(c
  ### sing-box based one-click script for AnyTLS + ACME + Let's Encrypt SSL
  
 ```bash
-DOMAIN="example.com" USER_PASSWORD="A0B9C8D7E6F5" EMAIL="example@example.com" LISTEN_PORT=8443 bash <(curl -sL https://raw.githubusercontent.com/TogawaSakiko363/AwesomeScripts/refs/heads/main/proxy.sh/sing-box_acme.sh) install
+DOMAIN="example.com" USER_PASSWORD="A0B9C8D7E6F5" EMAIL="example@example.com" LISTEN_PORT=8443 bash <(curl -sL https://raw.githubusercontent.com/TogawaSakiko363/AwesomeScripts/refs/heads/main/proxy.sh/sing-box_anytls_acme.sh) install
 ```
 `USER_PASSWORD="A0B9C8D7E6F5" LISTEN_PORT=8443` can be customized
 
