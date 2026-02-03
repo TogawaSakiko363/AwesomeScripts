@@ -1,55 +1,87 @@
 #!/bin/bash
-
 set -e
 
-# === 配置 ===
+# ================== 配置 ==================
 GO_INSTALL_DIR="/usr/local"
-PROFILE_FILE="$HOME/.profile"
 TMP_DIR="/tmp/go-install"
+PROFILE_FILES=("$HOME/.profile" "$HOME/.bashrc")
 
-# 检查依赖
-command -v curl >/dev/null 2>&1 || { echo "请先安装 curl：sudo apt update && sudo apt install curl"; exit 1; }
-command -v tar >/dev/null 2>&1 || { echo "请先安装 tar：sudo apt install tar"; exit 1; }
+# ================== 依赖检查 ==================
+for cmd in curl tar uname; do
+    if ! command -v "$cmd" >/dev/null 2>&1; then
+        echo "❌ 缺少依赖: $cmd"
+        exit 1
+    fi
+done
 
-# 获取最新版本号
-echo "获取最新 Go 版本..."
+# ================== 架构判断 ==================
+ARCH=$(uname -m)
+case "$ARCH" in
+    x86_64)
+        GO_ARCH="amd64"
+        ;;
+    aarch64|arm64)
+        GO_ARCH="arm64"
+        ;;
+    *)
+        echo "❌ 不支持的架构: $ARCH"
+        exit 1
+        ;;
+esac
+
+echo "✅ 检测到系统架构: $ARCH → Go 架构: $GO_ARCH"
+
+# ================== 获取最新版本 ==================
+echo "🔍 获取最新 Go 版本..."
 LATEST_VERSION=$(curl -s https://go.dev/VERSION?m=text | head -n 1)
-GO_TARBALL="${LATEST_VERSION}.linux-amd64.tar.gz"
+
+GO_TARBALL="${LATEST_VERSION}.linux-${GO_ARCH}.tar.gz"
 GO_URL="https://go.dev/dl/${GO_TARBALL}"
 
-echo "最新版本为: $LATEST_VERSION"
-echo "下载地址为: $GO_URL"
+echo "📦 最新版本: $LATEST_VERSION"
+echo "⬇️  下载地址: $GO_URL"
 
-# 清理旧版本
+# ================== 清理旧版本 ==================
 if [ -d "$GO_INSTALL_DIR/go" ]; then
-    echo "检测到旧版本，正在移除..."
+    echo "🧹 移除旧版本 Go..."
     sudo rm -rf "$GO_INSTALL_DIR/go"
 fi
 
-# 创建临时目录并下载
+# ================== 下载并安装 ==================
 mkdir -p "$TMP_DIR"
 cd "$TMP_DIR"
 
-echo "开始下载 Go 安装包..."
-curl -LO "$GO_URL"
+echo "⬇️  开始下载..."
+curl -fLO "$GO_URL"
 
-echo "解压并安装 Go..."
+echo "📂 解压并安装..."
 sudo tar -C "$GO_INSTALL_DIR" -xzf "$GO_TARBALL"
 
-# 配置环境变量
-if ! grep -q '/usr/local/go/bin' "$PROFILE_FILE"; then
-    echo 'export PATH=$PATH:/usr/local/go/bin' >> "$PROFILE_FILE"
-    echo 'export GOPATH=$HOME/go' >> "$PROFILE_FILE"
-    echo 'export PATH=$PATH:$GOPATH/bin' >> "$PROFILE_FILE"
-    echo "已将 Go 路径添加到 $PROFILE_FILE"
-fi
+# ================== 配置环境变量（持久化） ==================
+for FILE in "${PROFILE_FILES[@]}"; do
+    if [ ! -f "$FILE" ]; then
+        touch "$FILE"
+    fi
 
-# 加载环境变量（当前 shell 生效）
-source "$PROFILE_FILE"
+    if ! grep -q '/usr/local/go/bin' "$FILE"; then
+        {
+            echo ''
+            echo '# === Go environment ==='
+            echo 'export GOPATH=$HOME/go'
+            echo 'export PATH=/usr/local/go/bin:$GOPATH/bin:$PATH'
+        } >> "$FILE"
+        echo "✅ 已写入环境变量: $FILE"
+    fi
+done
 
-# 验证安装
-echo "✅ Go 安装成功！当前版本："
+# ================== 当前 shell 立即生效 ==================
+export GOPATH="$HOME/go"
+export PATH="/usr/local/go/bin:$GOPATH/bin:$PATH"
+
+# ================== 验证 ==================
+echo "🎉 Go 安装完成！"
+echo "👉 Go 路径: $(command -v go)"
 go version
 
-# 清理临时文件
+# ================== 清理 ==================
 rm -rf "$TMP_DIR"
